@@ -10,5 +10,5 @@ export class Config {
         }
         return Config._url;
     }
-    private static _url = "https://nyc1.slpdb.io";
+    private static _url = "https://tokendb.kingbch.com";
 }
