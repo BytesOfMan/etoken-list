@@ -2,6 +2,7 @@ import axios, { AxiosRequestConfig } from "axios";
 import { Big } from "big.js";
 import { GenesisInfo, TxoResponse } from ".";
 import { Config } from "./config";
+import { toEtokenAddr } from "./utils";
 
 const MAX_QUERY_LIMIT = 10 ** 9;
 
@@ -23,6 +24,7 @@ export class List {
         txos = txos.concat(...txos1).concat(...txos2).concat(...txos3);
         // const bestBlock = await this._getBestBlockHeight(Config.url);
         for (const txo of txos) {
+            txo.address = toEtokenAddr(txo.address)
             if (coinAgeStartBlock && txo.blk < coinAgeStartBlock) {
                 txo.coinAge = blockCutoff - coinAgeStartBlock;
             } else {

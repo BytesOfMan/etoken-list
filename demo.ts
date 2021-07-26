@@ -4,27 +4,29 @@ import { prompt } from "inquirer";
 import * as readline from "readline";
 import { List } from "./src/list";
 import { Config } from "./src/config";
+import { toEcashAddr } from "./src/utils";
 
-const bchaddr = require("bchaddrjs-slp");
 const Spinner = require("cli-spinner").Spinner;
 
 const args = process.argv.slice(2);
+console.log(args)
 let client: GrpcClient;
 let customUrl, certPath: string;
 if (args.includes("--bchd-rootcert") && args.includes("--bchd-url")) {
     certPath = args[args.indexOf("--bchd-rootcert") + 1];
     customUrl = args[args.indexOf("--bchd-url") + 1];
     client = new GrpcClient({ url: customUrl });
-} else if (args.includes("--bchdurl")) {
+} else if (args.includes("--bchd-url")) {
     customUrl = args[args.indexOf("--bchd-url") + 1];
     client = new GrpcClient({ url: customUrl });
 } else {
-    client = new GrpcClient();
+    client = new GrpcClient({ url: `grpc.fabien.cash:8335` })
+;
 }
 
 (async () => {
     const slpdbHosts: {[key: string]: string[]} = {
-        mainnet: ["https://slpdb.fountainhead.cash", "https://slpserve.imaginary.cash", "http://localhost:3000"],
+        mainnet: ["https://tokendb.kingbch.com", "http://localhost:3000"],
         testnet: ["https://tslpdb.bitcoin.com", "http://localhost:3000"],
     };
 
@@ -40,7 +42,7 @@ if (args.includes("--bchd-rootcert") && args.includes("--bchd-url")) {
                 },
                 {
                     value: "bch_dividend_list_prorata",
-                    name: "Token holders and pro-rata BCH dividend to distribute.",
+                    name: "Token holders and pro-rata XEC dividend to distribute.",
                 },
                 {
                     value: "slp_coin_age_list",
@@ -48,7 +50,7 @@ if (args.includes("--bchd-rootcert") && args.includes("--bchd-url")) {
                 },
                 {
                     value: "slp_airdrop_list_prorata",
-                    name: "Token holders and SLP airdrop pro-rata.",
+                    name: "Token holders and eToken airdrop pro-rata.",
                 },
             ],
         },
@@ -58,8 +60,8 @@ if (args.includes("--bchd-rootcert") && args.includes("--bchd-url")) {
         {
             type: "list",
             name: "bch_network",
-            message: "Choose BCH network:",
-            choices: ["Mainnet", "Testnet"],
+            message: "Choose XEC network:",
+            choices: ["Mainnet", ],
             filter(net: string) { return net.toLowerCase(); },
         },
     ])).bch_network;
@@ -172,7 +174,7 @@ if (args.includes("--bchd-rootcert") && args.includes("--bchd-url")) {
         {
             type: "list",
             name: "slpdbHost",
-            message: "Choose SLPDB host:",
+            message: "Choose TokenDB host:",
             choices: slpdbHosts[bch_network],
         },
         {
@@ -211,8 +213,8 @@ if (args.includes("--bchd-rootcert") && args.includes("--bchd-url")) {
         const bchAmount = (await prompt([{
             type: "input",
             name: "bch_amount",
-            message: "Enter BCH amount to distribute:",
-            validate(id) { return /^\d+(\.\d{0,8})?$/.test(id); }, // up to 8 decimal places
+            message: "Enter XEC amount to distribute:",
+            validate(id) { return /^\d+(\.\d{0,2})?$/.test(id); }, // up to  decimal places
         }])).bch_amount;
 
         spinner = new Spinner("processing.. %s");
@@ -226,15 +228,15 @@ if (args.includes("--bchd-rootcert") && args.includes("--bchd-url")) {
         bals.forEach((v, k) => {
             const d = v.div(slpTotal).mul(bchAmount);
             if (d.gt(0.00000000)) {
-                print(`${bchaddr.toCashAddress(k)}, ${d.toFixed(8)}`);
+                print(`${toEcashAddr(k)}, ${d.toFixed(2)}`);
             }
         });
 
-        print("-----------------COPY/PASTE TO ELECTRON CASH-------------------\n");
+        print("-----------------COPY/PASTE TO ELECTRUM ABC-------------------\n");
         print(`Block Height: ${userHeight}`);
         print(`Address Count (includes 0 balances): ${bals.size}`);
         print(`Address Count (not including 0 balances): ${Array.from(bals.values()).filter((v) => v.gt(0)).length}`);
-        print(`Receiver Count (not including 0 outputs): ${Array.from(bals.values()).filter((v) => v.round(8).gte(0.00000001)).length}`);
+        print(`Receiver Count (not including 0 outputs): ${Array.from(bals.values()).filter((v) => v.round(2).gte(0.01)).length}`);
         print("Tokens Circulating:", slpTotal.toFixed());
     } else if (appMode === "slp_coin_age_list") {
         const coinAgeFrom = parseInt((await prompt([{
@@ -295,7 +297,7 @@ if (args.includes("--bchd-rootcert") && args.includes("--bchd-url")) {
             }
         });
 
-        print("---------- COPY/PASTE TO ELECTRON CASH SLP v3.4.15+ ----------\n");
+        print("---------- FOR INFORMATION ONLY ----------\n");
         print(`Block Height: ${userHeight}`);
         print(`Address Count (includes 0 balance): ${bals.size}`);
         print(`Address Count (not including 0 balances): ${Array.from(bals.values()).filter((v) => v.gt(0)).length}`);
