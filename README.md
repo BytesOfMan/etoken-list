@@ -31,7 +31,7 @@ This demo app allows the user to print eToken lists to the console. User can the
 #### Run the demo CLI application
 ```
 $ git clone https://github.com/bytesofman/etoken-list.git
-$ cd slp-list
+$ cd etoken-list
 $ npm i
 $ npm start
 ```
@@ -58,8 +58,8 @@ Get a list of token holder addresses and balances for a token using custom SLPDB
 
 ```ts
 let etokenlist = require("etoken-list");
-slplist.Config.SetUrl("https://tokendb.kingbch.com");
-const blockCutoff = 620971;
+etokenlist.Config.SetUrl("https://tokendb.kingbch.com");
+const blockCutoff = 695000;
 let list;
 
 (async () => {
@@ -70,6 +70,26 @@ let list;
     );
     console.log(list);
 })();
+// Result
+
+/*
+Map(14) {
+  'etoken:qqwp8hdcm4pzh0szms4ws7vtg4y6v73ur5k2cwragz' => '100',
+  'etoken:qzzm4vmgpqeumxeuccy4xdz05aq2yg6mh5aj2tulx5' => '100',
+  'etoken:qr0w2r6hvd3rwlwj7qc520qtkzgqnt90sy0grcj2wt' => '1000',
+  'etoken:qzj5zu6fgg8v2we82gh76xnrk9njcreglu4mqtxxh5' => '1000',
+  'etoken:qr9dfz5ngm2xtr208fdzp4zny8tcpe4vquyuuuhark' => '888',
+  'etoken:qqartrrq3npyzpcqswq2hcslstzu38mq8gmmk4d5rf' => '10',
+  'etoken:qr204yfphngxthvnukyrz45u7500tf60vywwgwtned' => '80',
+  'etoken:qzln9cyenps0gznst42w3r3788m0fcld55z2hc2v56' => '2',
+  'etoken:qryzwruy2qkrr4jyf7l56zsu3tc7dupvjq0e92et39' => '18',
+  'etoken:qphlhe78677sz227k83hrh542qeehh8el53xmvqewn' => '7',
+  'etoken:qrpl4usqmv9pwk0w53cqduzc8yvc89mswccvzwnx86' => '1',
+  'etoken:qr2wg056z9fxzsqcf5t2ju7ch3v66238jvfyvesmj6' => '100',
+  'etoken:qqvu0ps25e4vpu00uyla5q4t32ljtuc8uym84ylx2z' => '100',
+  'etoken:qz2708636snqhsxu8wnlka78h6fdp77ar5tv2tzg4r' => '996594'
+}
+*/
 ```
 
 ### List of coins
@@ -78,8 +98,8 @@ List the individual UTXOs, coin age, etc for a specified token ID:
 
 ```ts
 let etokenlist = require("etoken-list");
-slplist.Config.SetUrl("https://tokendb.kingbch.com");
-const blockCutoff = 620971;
+etokenlist.Config.SetUrl("https://tokendb.kingbch.com");
+const blockCutoff = 695000;
 let list;
 
 (async () => {
@@ -90,6 +110,78 @@ let list;
     console.log(list);
 })();
 
+// Result
+/*
+[
+  {
+    txid: '5f76f67582c0968369ad2e03f3545e4c28db7f60e21b76255f5e4cfa026afdcb',
+    blk: 680063,
+    slpAmount: '100',
+    address: 'etoken:qqwp8hdcm4pzh0szms4ws7vtg4y6v73ur5k2cwragz',
+    vout: 1,
+    coinAge: 14937
+  },
+  {
+    txid: '9c3d3fe2528809c8a0fd2eb8b1030e5d8e06bafeb44d272d049081b3ba2cbbb6',
+    blk: 680064,
+    slpAmount: '100',
+    address: 'etoken:qzzm4vmgpqeumxeuccy4xdz05aq2yg6mh5aj2tulx5',
+    vout: 1,
+    coinAge: 14936
+  },
+  {
+    txid: '62854434f37f77ecc4efa168a9cb568b538c84ffdb11ad809bedae840f141b99',
+    blk: 680065,
+    slpAmount: '1000',
+    address: 'etoken:qr0w2r6hvd3rwlwj7qc520qtkzgqnt90sy0grcj2wt',
+    vout: 1,
+    coinAge: 14935
+  },
+  {
+    txid: '800bf66b46b65e0f5137a9049a0e5428a56626c030f38fc040c172857e3a9252',
+    blk: 680065,
+    slpAmount: '1000',
+    address: 'etoken:qzj5zu6fgg8v2we82gh76xnrk9njcreglu4mqtxxh5',
+    vout: 1,
+    coinAge: 14935
+  },
+  {
+    txid: '6632079a5f1a565bd173fdc9c9baac0c5646fae467e2f7e62efd2d0e849d1a65',
+    blk: 680086,
+    slpAmount: '888',
+    address: 'etoken:qr9dfz5ngm2xtr208fdzp4zny8tcpe4vquyuuuhark',
+    vout: 1,
+    coinAge: 14914
+  },
+  {
+    txid: '05f40504b5d4ca11c714043010fe9f2f8670cc94d11afd11b759a218b712c14b',
+    blk: 684267,
+    slpAmount: '3',
+    address: 'etoken:qqartrrq3npyzpcqswq2hcslstzu38mq8gmmk4d5rf',
+    vout: 2,
+    coinAge: 10733
+  },
+  {
+    txid: '2eeff69fd2338e50e1934e97dae0c841c7b4ef603e800cd06bc47da46e50a3ae',
+    blk: 684293,
+    slpAmount: '1',
+    address: 'etoken:qqartrrq3npyzpcqswq2hcslstzu38mq8gmmk4d5rf',
+    vout: 1,
+    coinAge: 10707
+  },
+  {
+    txid: '3f324d982a4cdb650631fda0d9bf8905c593e9483eed7df5d00435afa10bcf59',
+    blk: 684293,
+    slpAmount: '1',
+    address: 'etoken:qqartrrq3npyzpcqswq2hcslstzu38mq8gmmk4d5rf',
+    vout: 1,
+    coinAge: 10707
+  },
+  ...
+  ,
+]
+*/
+
 ```
 
 ### List all holders of an NFT in an NFT1 Group
@@ -98,7 +190,7 @@ List the NFT holders for a specific NFT1 Group:
 
 ```ts
 let etokenlist = require("etoken-list");
-slplist.Config.SetUrl("https://tokendb.kingbch.com");
+etokenlist.Config.SetUrl("https://tokendb.kingbch.com");
 let list;
 
 (async () => {
