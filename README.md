@@ -235,9 +235,10 @@ let list;
 })();
 ```
 
-
-
 ## Change Log
+
+### 1.0.1
+- Readme and repo URL fixes
 
 ### 1.0.0 Reset
 - Converted from SLP to eCash

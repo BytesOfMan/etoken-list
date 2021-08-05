@@ -1,6 +1,6 @@
 {
   "name": "etoken-list",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "List token holders and balances at any block height",
   "main": "dist/index.js",
   "files": [
@@ -14,9 +14,9 @@
   },
   "unpkg": "dist/etoken-list.min.js",
   "bugs": {
-    "url": "https://github.com/bytesofman/etoken-list.js/issues"
+    "url": "https://github.com/bytesofman/etoken-list/issues"
   },
-  "homepage": "https://github.com/bytesofman/etoken-list.js#readme",
+  "homepage": "https://github.com/bytesofman/etoken-list#readme",
   "keywords": [
     "eToken",
     "eCash",
