@@ -235,8 +235,6 @@ let list;
 })();
 ```
 
-
-
 ## Change Log
 
 ### 1.0.0 Reset
