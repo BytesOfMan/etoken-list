@@ -84,7 +84,7 @@ if (args.includes("--bchd-rootcert") && args.includes("--bchd-url")) {
     try {
         bestHeight = (await client.getBlockchainInfo()).getBestHeight();
         currentMtp = (await client.getBlockInfo({ index: bestHeight })).getInfo()!.getMedianTime();
-    } catch (e) {
+    } catch (e: any) {
         spinner.stop(true);
         print("Network error:", e.message);
         process.exit();
