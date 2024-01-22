@@ -1,6 +1,6 @@
 {
   "name": "etoken-list",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "List token holders and balances at any block height",
   "main": "dist/index.js",
   "files": [
@@ -10,7 +10,7 @@
   "scripts": {
     "start": "ts-node demo.ts",
     "test": "nyc mocha --timeout 1000000",
-    "build": "tsc && esbuild --allow-overwrite --minify ./dist/index.js --outdir=dist/"
+    "build": "tsc && esbuild --sourcemap --allow-overwrite --minify ./dist/index.js --outdir=dist/"
   },
   "unpkg": "dist/etoken-list.min.js",
   "bugs": {
